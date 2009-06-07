@@ -1,0 +1,105 @@
+## Speex quality evaluation
+
+These data and scripts are intended to reproduce the experiment for speex
+quality estimation in lossless environment and comparing given results with
+other codecs.
+
+### Test environment 
+
+Originally this test has been performed under GNU/Linux environment with Ubuntu
+9.04. In order to sucessfully reproduce the experiment, one have to install
+these additional packages and utilities:
+
+ - python 2.4 or above (already installed on most Linux systems)
+ - GNU Make utility (`make` package)
+ - gnuplot plotting program (`gnuplot` package)
+ - SoX audio manipulation utility (`sox` package)
+ - Gnuplot.py, a python interface to the gnuplot plotting program
+   (`python-gnuplot` package)
+ - PESQ test utility from ITU-T official site (has no package, not open-source)
+ - network-emulator tool and pjsip media framework (both open-sources but have
+   no packages)
+ - Intell IPP codecs
+ - git revision control system (`git-core` package)
+
+### PESQ utility installation 
+
+PESQ utility sources can be downloaded from [corresponding ITU-T page][pesq].
+The compilaton result (one binary file) must be placed into the one of the
+`$PATH` directories. File must be named `pesq`.
+
+### pjsip, IPP and network-emulator installation
+
+Just before installing network-emulator, the pjproject framework must be
+downloaded and compiled from its [official site][pjsip]
+
+Intel Integrated Performance Primitives are required to get speech quality
+estimation results for G.723.1, G.729 and some other commercial codecs. An 
+[IPP installation HOWTO][ipp_install] is available from the PJSIP site.
+
+One should [download][network_emulator] and install network emulator. Compiling
+instructions can be found in the README short manual. Binary named `emulator`
+must be moved to the `$PATH`.
+
+### experiment launching
+
+If everything goes right, it's possible to perform an experiment. To do this
+it's enought to type `make` with one of the prerequisites: `<codec_id>` or just
+`all`. The `codec_id` nothing but some identifier which defines a bunch of
+encoder options for `emulator` utility. These identifiers are listed in
+Makefile just after "encoding options" line and in the `codec` variable.
+
+If some of of the codecs (i.e. IPP codecs) has not been compiled, one should
+comment out or remove corresponding identifiers from `codec` variable in
+Makefile.
+
+### output data
+
+Makefile creates directory structure with experiment results as follow:
+
+	|-- input
+	|   |-- english_female01.wav
+	|   |-- english_female02.wav
+	|   |-- english_female03.wav
+	|   |-- english_female04.wav
+	|    ...
+	|
+	|-- output
+	|   |-- amr_10200
+	|   |   |-- english_female01.pesq
+	|   |   |-- english_female01.wav
+	|   |   |-- english_female02.pesq
+	|   |   |-- english_female02.wav
+	|   |  ...
+	|   |-- speex_2
+	|   |   |-- english_female01.pesq
+	|   |   |-- english_female01.wav
+	|   |   |-- english_female02.pesq
+	|   |   |-- english_female02.wav
+	...
+
+
+First before there are input files which will be prepared from sources. The
+difference between source and input files is that the last ones have 8kHz
+sampling rate and adjusted volume (see `prepare.sh` script for more
+information).
+
+For every input file and every codec identifier the testing tool creates two files:
+
+ -  degraded .wav-file.
+ -  .pesq file which contains just one floating point number with MOS LQO
+    estimation.
+
+### plotting graphics
+
+The `plot_data.py` utility draws pesq estimation results and stores these ones
+in the files inside the `graphics` directory. It's nessesary to type: `mkdir
+graphics` before launching this script. As with Makefile above one should
+comment out values in `codec` dictionary if corresponding experiment results
+do not exist.
+
+
+[pesq]: http://www.itu.int/rec/T-REC-P.862/en "PESQ"
+[pjsip]: http://www.pjsip.org "pjsip"
+[ipp_install]: http://trac.pjsip.org/repos/wiki/Intel_IPP_Codecs "IPP installation HOWTO"
+[network_emulator]: http://github.com/imankulov/network-emulator/ "Network emulator"
