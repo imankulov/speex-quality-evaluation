@@ -6,8 +6,8 @@ codecs := g726_16 g726_24 g726_32 g726_40 \
 	g728 g729 g723_53 g723_63 \
 	amr_4750 amr_5150 amr_5900 amr_6700 amr_7400 amr_7950 amr_10200 amr_12200 \
 	speex_1 speex_8 speex_2 speex_3 speex_4 speex_5 speex_6 speex_7 \
-	speex_vbr_2000 speex_vbr_2500 speex_vbr_3000 speex_vbr_4000 speex_vbr_5000 \
-	speex_vbr_7000 speex_vbr_8000 speex_vbr_10000 speex_vbr_12000 speex_vbr_15000 \
+	speex_vbr_3000 speex_vbr_4000 speex_vbr_5000 speex_vbr_7000 \
+	speex_vbr_8000 speex_vbr_10000 speex_vbr_12000 speex_vbr_15000 \
 	pcmu pcma
 
 # encoding options
