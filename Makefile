@@ -34,5 +34,10 @@ prepare:
 	mkdir -p input 
 	for c in $(codecs); do mkdir -p output/$$c; done
 
+experiment.pesq: $(pesq_files)
+	./create_experiment_pesq.sh
+
+
+# auxiliary rules
 .PHONY: prepare all help $(codecs)
 .SILENT: help prepare
