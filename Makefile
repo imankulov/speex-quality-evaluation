@@ -2,7 +2,7 @@
 MAKEFLAGS += --jobs 5 --max-load 2.5
 
 include conf.mk
-
+include summary.mk
 
 help:
 	echo "You must select one of the target corresponding to some codec"
@@ -34,10 +34,8 @@ prepare:
 	mkdir -p input 
 	for c in $(codecs); do mkdir -p output/$$c; done
 
-experiment.pesq: $(pesq_files)
-	./scripts/create_experiment_pesq.sh
 
 
 # auxiliary rules
-.PHONY: prepare all help $(codecs)
+.PHONY: prepare all help summary $(codecs)
 .SILENT: help prepare

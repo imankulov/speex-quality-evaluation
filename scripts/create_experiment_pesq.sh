@@ -43,7 +43,7 @@ bandwidth_speex_vbr_12000=12000
 bandwidth_speex_vbr_15000=15000
 bandwidth_ilbc=13333
 
-out=experiment.pesq
+out=summary/experiment.pesq
 echo -e "codec\tlanguage\tgender\tmos\tbandwidth" > $out
 for filename in output/*/*.pesq; do
 	read codec language gender < <(echo "$filename" | sed -r 's,^output/([^/]+)/([^_]+)_(.*)..\.pesq$,\1 \2 \3,g')
