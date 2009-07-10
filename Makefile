@@ -12,7 +12,7 @@ help:
 # input file is a 8kHz file
 #$(input_files): input/%.wav: src/%.wav
 input/%.wav: src/%.wav
-	./prepare.sh $< $@
+	./scripts/prepare.sh $< $@
 
 # This is generic rule to make the core experiment 
 # output/pcmu/woman01.wav depends from input/woman01.wav
@@ -35,7 +35,7 @@ prepare:
 	for c in $(codecs); do mkdir -p output/$$c; done
 
 experiment.pesq: $(pesq_files)
-	./create_experiment_pesq.sh
+	./scripts/create_experiment_pesq.sh
 
 
 # auxiliary rules
