@@ -47,6 +47,7 @@ ilbc_options := --codec=iLBC
 # Source (raw data)
 src_files := $(wildcard src/*)
 input_files := $(subst src,input,$(src_files))
+input_pesq_files := $(subst wav,pesq,$(input_files))
 output_files := $(shell for c in $(codecs); do ls src/* | sed "s,src/,output/$${c}/," ; done)
 pesq_files := $(shell for c in $(codecs); do ls src/* | sed "s,src/,output/$${c}/,; s,wav,pesq," ; done)
 
@@ -62,6 +63,10 @@ test_conf:
 	echo $(input_files) | tr ' ' '\n' | head -n3
 	echo ...
 	echo $(input_files) | tr ' ' '\n' | tail -n2
+	echo "* Input PESQ files"
+	echo $(input_pesq_files) | tr ' ' '\n' | head -n3
+	echo ...
+	echo $(input_pesq_files) | tr ' ' '\n' | tail -n2
 	echo
 	echo "* Output files"
 	echo $(output_files) | tr ' ' '\n' | head -n3

@@ -25,10 +25,17 @@ output/%.wav: input/$$(notdir %).wav
 output/%.pesq: output/%.wav
 	pesq +8000 input/$(shell echo "$<" | sed -r 's,.*/.*/(.*),\1,') $<  | tail -n1 | egrep -o '[0-9.]+$$' > $@
 
+# This is PESQ values for speech samples with no codec impairments
+# (when input speech sample is compared with itself
+# The rule to get all input PESQ values has the name ref_pesq
+ref_pesq: $(input_pesq_files)
+input/%.pesq: input/%.wav
+	 pesq +8000 $< $< | tail -n1 | egrep -o '[0-9.]+$$' > $@
+
 # This is a rule to make full experiment for one codec and one rule to make it all
 # "codec" depends from output/codec/woman01.pesq, output/codec/woman02.pesq, etc
 $(codecs): %: prepare $(addsuffix .pesq,$(basename $(subst src/,output/%/,$(wildcard src/*))))
-all: $(codecs)
+all: ref_pesq $(codecs)
 
 prepare:
 	mkdir -p input 
@@ -37,5 +44,5 @@ prepare:
 
 
 # auxiliary rules
-.PHONY: prepare all help summary $(codecs)
+.PHONY: prepare all help summary ref_pesq $(codecs)
 .SILENT: help prepare
