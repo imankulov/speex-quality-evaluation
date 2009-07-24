@@ -58,9 +58,13 @@ Makefile.
 Makefile creates directory structure with experiment results as follow:
 
 	|-- input
+	|   |-- english_female01.pesq
 	|   |-- english_female01.wav
+	|   |-- english_female02.pesq
 	|   |-- english_female02.wav
+	|   |-- english_female03.pesq
 	|   |-- english_female03.wav
+	|   |-- english_female04.pesq
 	|   |-- english_female04.wav
 	|    ...
 	|
@@ -83,6 +87,11 @@ First before there are input files which will be prepared from sources. The
 difference between source and input files is that the last ones have 8kHz
 sampling rate and adjusted volume (see `prepare.sh` script for more
 information).
+
+Then pesq utility compares every input file with itself. This `reference' value
+is used for the comparison with the pesq values of the degraded speech samples
+in order to compute the Ie parmeter of the R-factor. The experiments show that
+the reference pesq has the value 4.549 regardless the input speech sample.
 
 For every input file and every codec identifier the testing tool creates two files:
 
