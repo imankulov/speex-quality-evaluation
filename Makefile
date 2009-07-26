@@ -18,7 +18,7 @@ input/%.wav: src/%.wav
 # output/pcmu/woman01.wav depends from input/woman01.wav
 .SECONDEXPANSION:
 output/%.wav: input/$$(notdir %).wav
-	emulator $($(shell echo "$@" | sed -r 's,.*/(.*)/.*,\1,')_options) -i $< -o $@ -p empty
+	./scripts/emulate.sh $< $@
 
 # This is the rule to make pesq quality evaluation and store them to .pesq file
 # output/pcmu/01.pesq depends from output/pcmu/01.wav
