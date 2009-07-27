@@ -1,7 +1,7 @@
 library(xtable)
 
 # Load experiment data
-experiment = read.table("summary/experiment.pesq", header=TRUE)
+experiment = read.table("summary/experiment.dat", header=TRUE)
 
 # Load P.862.1 data
 codecs <- c("pcmu", "pcma", "g726_16", "g726_24", "g726_32", "g726_40", "g728", "g729", "g723_53", "g723_63")
