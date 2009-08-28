@@ -36,7 +36,7 @@ z = line(ret_median, ret_p862)
 experiment$mos2 = z$coefficients[1] + z$coefficients[2]*experiment$mos
 
 #make a plot and save it in the file
-postscript("graphics/interpolation.eps", height=5, width=5, pointsize=10,
+postscript("graphics/p862_interpolation.eps", height=5, width=5, pointsize=10,
 	horizontal=FALSE, onefile=FALSE, paper="special")
 plot(ret_median, ret_p862, xlab="Experimental MOS data", ylab="Reference MOS data")
 abline(z)
