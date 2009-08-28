@@ -1,6 +1,8 @@
+.R*
 *.pyc
 *.swp
 input
 output
 graphics
+pesq_results.txt
 summary/
