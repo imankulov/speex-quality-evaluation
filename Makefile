@@ -1,12 +1,12 @@
 # -*- makefile -*-
 MAKEFLAGS += --jobs 5 --max-load 2.5
 
-include conf.mk
-include summary.mk
-
 help:
 	echo "You must select one of the target corresponding to some codec"
 	echo "(i.e. 'make pcmu' or 'make speex_4') or just type 'make all'"
+
+include conf.mk
+include summary.mk
 
 # This is the rule to prepare input file from "source"
 # input file is a 8kHz file
