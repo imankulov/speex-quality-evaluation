@@ -10,11 +10,11 @@ codecs := g726_16 g726_24 g726_32 g726_40 \
 
 
 # Source (raw data)
-src_files := $(wildcard src/*)
+src_files := $(wildcard $(SQE_DATA)/src/*)
 input_files := $(subst src,input,$(src_files))
 input_pesq_files := $(subst wav,pesq,$(input_files))
-output_files := $(shell for c in $(codecs); do ls src/* | sed "s,src/,output/$${c}/," ; done)
-pesq_files := $(shell for c in $(codecs); do ls src/* | sed "s,src/,output/$${c}/,; s,wav,pesq," ; done)
+output_files := $(shell for c in $(codecs); do ls $(SQE_DATA)/src/* | sed "s,src/,output/$${c}/," ; done)
+pesq_files := $(shell for c in $(codecs); do ls $(SQE_DATA)/src/* | sed "s,src/,output/$${c}/,; s,wav,pesq," ; done)
 
 
 test_conf:

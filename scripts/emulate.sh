@@ -42,7 +42,7 @@ ilbc_options="--codec=iLBC"
 gsmfr_options="--codec=GSM/8000"
 
 mkdir -p $(dirname $2)
-codecs=$(cut -d/ -f2 <<<$2)
+codecs=$(basename $(dirname $2))
 file1=$(tempfile -s .wav)
 file2=$(tempfile -s .wav)
 trap 'rm -f "$file1" "$file2"' INT QUIT TERM EXIT

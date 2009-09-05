@@ -1,0 +1,36 @@
+In order to make an experiment one need to prepare the experiment root
+directory with an arbitrary name, create inside it the directory named `src`
+and place into the last one sample wav files with names as
+language_genderXX.wav where XX is a unique number.
+
+Then one need to set up environment variable SQE_DATA poiting the experiment
+directory and type `make smth` in order to perform the experiment or some of
+the experiment part.
+
+The easiest way to make an experiment with data provided by this package is
+just to type `make prepare codecs summary`.
+
+ENVIRONMENT VARIABLES
+--------------------------
+SQE_DATA
+	path to the experiment data directory (containing 'src' directory with
+	source wav samples)
+SQE_RESAMPLE_ONLY 
+	just copy 'src' files into the 'input' directory (and resample these
+	ones if needed)
+
+TARGETS
+--------
+make prepare
+	create directories needed to perform the experiment
+make <codec_id>
+	for each input file perform the emulation with current codec/emulator
+	settings and then make a quality estimation with PESQ algorithm
+make codecs
+	do `make <codec_id>` for every codec_id defined in conf.mk
+make summary
+	get summary results (data tables and plots)
+make clean_summary
+	clean data tables and plots
+make clean
+	clean all generated results

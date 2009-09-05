@@ -11,10 +11,11 @@ Try this:
 > bw = factor(bandwidth, levels=bandwidth, labels=codec)
 > boxplot(mos~bw)
 """
-import glob, re
+import glob, re, os
 import vqmetrics
 
-output_file = 'summary/experiment.dat'
+sqe_data = os.getenv('SQE_DATA', '.')
+output_file = os.path.join(sqe_data, 'summary/experiment.dat')
 
 bandwidth = dict(
     pcma=64000,
@@ -56,18 +57,20 @@ bandwidth = dict(
 )
 
 
-r =  re.compile(r'output/(.+)/(.+)_(.+)([0-9]{2}).pesq')
-files = sorted(glob.glob('output/*/*.pesq'))
+r =  re.compile(r'output/(.+)/(.+)_(.+?)([0-9]+).pesq$')
+files = sorted(glob.glob(os.path.join(sqe_data,'output/*/*.pesq')))
 
 o = open(output_file, 'w')
 o.write('codec\tlanguage\tgender\trefmos\tmos\tbandwidth\tie\n')
 for filename in files:
-    codecs, language, gender, id = r.match(filename).groups()
+    codecs, language, gender, id = r.search(filename).groups()
     codec = codecs.split('__')[0]
     bw = bandwidth[codec]
     with open(filename, 'r') as f:
         degmos = float(f.read())
-    with open('input/%(language)s_%(gender)s%(id)s.pesq' % locals()) as f:
+    pesq_filename = os.path.join(
+            sqe_data,'input/%(language)s_%(gender)s%(id)s.pesq' % locals())
+    with open(pesq_filename) as f:
         refmos = float(f.read())
     refr = vqmetrics.mos2r(refmos)
     degr = vqmetrics.mos2r(degmos)

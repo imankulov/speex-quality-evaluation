@@ -1,7 +1,9 @@
 library(xtable)
 
 # Load experiment data
-experiment = read.table("summary/experiment.dat", header=TRUE)
+sqe_data = Sys.getenv("SQE_DATA", ".")
+datfile = paste(sqe_data, "summary/experiment.dat", sep="/")
+experiment = read.table(datfile, header=TRUE)
 
 
 # 1. AMR 12.200 instead of EFR
@@ -31,11 +33,17 @@ z = line(ret_median, ret_p833)
 experiment$ie2 = z$coefficients[1] + z$coefficients[2]*experiment$ie
 
 #make a plot and save it in the file
-postscript("graphics/p833_interpolation.eps", height=5, width=5, pointsize=10,
+psfile = paste(sqe_data, "graphics/p833_interpolation.eps", sep="/")
+postscript(psfile, height=5, width=5, pointsize=10,
 	horizontal=FALSE, onefile=FALSE, paper="special")
 plot(ret_median, ret_p833, xlab="Experimental Ie data", ylab="Reference Ie data")
 abline(z)
+# subscribe top 10 distant points
+top5 = order( abs(residuals(z)), decreasing=TRUE )[1:5]
+text( ret_median[top5]-2, ret_p833[top5]-2, codecs[top5]  )
+
 dev.off()
+
 
 
 # generate summarized MOS result
@@ -57,6 +65,6 @@ tab = xtable(summarized)
 caption(tab) <- "Ie values"
 #colnames(tab) <- c("Codec ID", "MOS (exp)", "MOS (corr)", "IQR", "MOS (ref)")
 rownames(tab) <- 1:nrow(summarized)
-filename="summary/p833.tex"
-print(tab, file=filename)
+texfile=paste(sqe_data, "summary/p833.tex", sep="/")
+print(tab, file=texfile)
 

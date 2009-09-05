@@ -45,7 +45,7 @@ must be moved to the `$PATH`.
 
 If everything goes right, it's possible to perform an experiment. To do this
 it's enought to type `make` with one of the prerequisites: `<codec_id>` or just
-`all`. The `codec_id` is nothing but some identifier which defines a bunch of
+`codecs`. The `codec_id` is nothing but some identifier which defines a bunch of
 encoder options for `emulator` utility. These identifiers are listed in
 Makefile just after "encoding options" line and in the `codec` variable.
 

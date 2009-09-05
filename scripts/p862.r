@@ -1,7 +1,9 @@
 library(xtable)
 
 # Load experiment data
-experiment = read.table("summary/experiment.dat", header=TRUE)
+sqe_data = Sys.getenv("SQE_DATA", ".")
+datfile = paste(sqe_data, "summary/experiment.dat", sep="/")
+experiment = read.table(datfile, header=TRUE)
 
 # Load P.862.1 data
 codecs <- c("pcmu", "pcma", "g726_16", "g726_24", "g726_32", "g726_40", "g728", "g729", "g723_53", "g723_63")
@@ -36,7 +38,8 @@ z = line(ret_median, ret_p862)
 experiment$mos2 = z$coefficients[1] + z$coefficients[2]*experiment$mos
 
 #make a plot and save it in the file
-postscript("graphics/p862_interpolation.eps", height=5, width=5, pointsize=10,
+psfile = paste(sqe_data, "graphics/p862_interpolation.eps", sep="/")
+postscript(psfile, height=5, width=5, pointsize=10,
 	horizontal=FALSE, onefile=FALSE, paper="special")
 plot(ret_median, ret_p862, xlab="Experimental MOS data", ylab="Reference MOS data")
 abline(z)
@@ -63,6 +66,6 @@ for (g in levels(experiment$gender)) {
 	caption(tab) <- paste("MOS LQO values (", g, " voices)", sep="")
 	colnames(tab) <- c("Codec ID", "MOS (exp)", "MOS (corr)", "IQR", "MOS (ref)")
 	rownames(tab) <- 1:nrow(summarized)
-	filename=paste("summary/", g, "_p862.tex", sep="")
-	print(tab, file=filename)
+	texfile=paste(sqe_data, "/summary/", g, "_p862.tex", sep="")
+	print(tab, file=texfile)
 }

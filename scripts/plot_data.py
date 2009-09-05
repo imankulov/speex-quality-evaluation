@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 import glob
 import Gnuplot as gp
+import os
 from math import sqrt
 
+sqe_data = os.getenv('SQE_DATA', '.')
 codecs = dict(
           # bw,   name,          codec_type
     pcma = (64000,'G.711 A-law','itu'),
@@ -67,10 +69,10 @@ def get_mos(codec=None, language=None, gender=None):
     """
     Get PESQ MOS value list for given codec name, language and gender.
     """
-    glob_list = 'output/%s/%s_%s.pesq' % (
+    glob_list = os.path.join(sqe_data, 'output/%s/%s_%s.pesq' % (
             codec or '*',
             language or '*',
-            gender and '%s*' % gender or '*')
+            gender and '%s*' % gender or '*'))
     filenames = glob.glob(glob_list)
     for filename in filenames:
         fd = open(filename, 'r')
@@ -88,8 +90,8 @@ def plot_speex(codec_type, language=None, gender=None):
     """
     g = gp.Gnuplot(debug=0)
     g('set terminal postscript eps enhanced color')
-    g('set output "graphics/%s_%s_%s.eps"' % (
-        language or 'all', gender or 'all', codec_type))
+    g('set output "%s/graphics/%s_%s_%s.eps"' % (
+        sqe_data, language or 'all', gender or 'all', codec_type))
     g.title('Speex MOS values on the top of %s (%s, %s)' % (
         codec_type, language or 'all languages', gender or 'males and females'))
     #g('set size 1.5,1.5')
