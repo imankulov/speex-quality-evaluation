@@ -1,4 +1,5 @@
 library(xtable)
+source("scripts/helpers.r")
 
 # Load experiment data
 sqe_data = Sys.getenv("SQE_DATA", ".")
@@ -60,7 +61,7 @@ for (g in levels(experiment$gender)) {
 			}))
 	)
 	#summarized$in_iqr = summarized$p862 < summarized$p75 & summarized$p862 > summarized$p25
-	summarized$codec_id = rownames(summarized)
+	summarized$codec_id = codec_name(rownames(summarized))
 
 	tab = xtable(summarized[, c(7, 1, 2, 5, 6)])
 	caption(tab) <- paste("MOS LQO values (", g, " voices)", sep="")

@@ -1,4 +1,5 @@
 library(xtable)
+source("scripts/helpers.r")
 
 # Load experiment data
 sqe_data = Sys.getenv("SQE_DATA", ".")
@@ -40,7 +41,7 @@ plot(ret_median, ret_p833, xlab="Experimental Ie data", ylab="Reference Ie data"
 abline(z)
 # subscribe top 10 distant points
 top5 = order( abs(residuals(z)), decreasing=TRUE )[1:5]
-text( ret_median[top5]-2, ret_p833[top5]-2, codecs[top5]  )
+text( ret_median[top5]-2, ret_p833[top5]-2, codec_name(codecs[top5]))
 
 dev.off()
 
@@ -58,12 +59,11 @@ summarized = data.frame(
 			p833[p833$codec==levels(codec)[x[1]], "ie"] 
 		}))
 )
-summarized$codec_id = rownames(summarized)
+summarized$codec_id = codec_name(rownames(summarized))
 
-#tab = xtable(summarized[, c(7, 1, 2, 5, 6)])
-tab = xtable(summarized)
+tab = xtable(summarized[, c(7, 1, 2, 5, 6)])
 caption(tab) <- "Ie values"
-#colnames(tab) <- c("Codec ID", "MOS (exp)", "MOS (corr)", "IQR", "MOS (ref)")
+colnames(tab) <- c("Codec ID", "Ie (exp)", "Ie (corr)", "IQR", "Ie (ref)")
 rownames(tab) <- 1:nrow(summarized)
 texfile=paste(sqe_data, "summary/p833.tex", sep="/")
 print(tab, file=texfile)
